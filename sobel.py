@@ -7,11 +7,11 @@ cwd = os.getcwd()
 print(cwd);#this is the directory you need to put the images in
 path = str(input("File Path?"));
 save = str(input("Save Sobel image as?"));
-img = Image.open(path); #open the image o be sobel-ed
-img = img.convert('RGB');#make sure it's the right type; without this line, some .png files fail
+bushes = Image.open(path); #open the image o be sobel-ed
+bushes = bushes.convert('RGB');#make sure it's the right type; without this line, some .png files fail
 max_intensity = 0; #keep track of maximum value for scaling purposes
-width, height = img.size; #get size of image
-newimg = Image.new("RGB", (width, height), "white");#create a new blank image of the same dimensions
+width, height = bushes.size; #get size of image
+sobel = Image.new("RGB", (width, height), "white");#create a new blank image of the same dimensions
 greenscale = Image.new("RGB", (width, height),"white"); #create a new blank imagefor each color scale image
 redscale = Image.new("RGB",(width,height),"white");
 bluescale = Image.new("RGB",(width,height),"white");
@@ -25,45 +25,45 @@ for x in range(1, width-1): #iterating through each pixel in the image
 	for y in range(1, height-1):
 		gradient_x = 0;#begin sobel operator
 		gradient_y = 0;
-		p = img.getpixel((x-1, y-1))#this operation is done for each surrounding pixel
+		p = bushes.getpixel((x-1, y-1))#this operation is done for each surrounding pixel
 		red = p[0];
 		green = p[1];#get each color intensity
 		blue = p[2];
 		gradient_x += -(red + green + blue);#look up sobel algorithm matrices to understand why this is happening
 		gradient_y += -(red + green + blue);
-		p = img.getpixel((x-1, y));#next neighbor pixel
+		p = bushes.getpixel((x-1, y));#next neighbor pixel
 		red = p[0];
 		green = p[1];#more intensities
 		blue = p[2];
 		gradient_x += -2 * (red + green + blue);#refer to sobel matrix
-		p = img.getpixel((x-1, y+1));#next neighbor pixel
+		p = bushes.getpixel((x-1, y+1));#next neighbor pixel
 		red = p[0];
 		green = p[1];#more intensities
 		blue = p[2];
 		gradient_x += -(red + green + blue);#more sobel matrices
 		gradient_y += (red + green + blue);
-		p = img.getpixel((x, y-1));#more neighbors
+		p = bushes.getpixel((x, y-1));#more neighbors
 		red = p[0];
 		green = p[1];#more intensities
 		blue = p[2];
 		gradient_y += -2 * (red + green + blue);#more sobel
-		p = img.getpixel((x, y+1));#more neighbors
+		p = bushes.getpixel((x, y+1));#more neighbors
 		red = p[0];
 		green = p[1];#more intensities
 		blue = p[2];
 		gradient_y += 2 * (red + green + blue);#more sobel
-		p = img.getpixel((x+1, y-1));#more neighbors
+		p = bushes.getpixel((x+1, y-1));#more neighbors
 		red = p[0];
 		green = p[1];#more intensities
 		blue = p[2];
 		gradient_x += (red + green + blue);
 		gradient_y += -(red + green + blue);#more sobel
-		p = img.getpixel((x+1, y));#more neighbors
+		p = bushes.getpixel((x+1, y));#more neighbors
 		red = p[0];
 		green = p[1];#more intensities
 		blue = p[2];
 		gradient_x += 2 * (red + green + blue);#more sobel
-		p = img.getpixel((x+1, y+1));#last neighbor
+		p = bushes.getpixel((x+1, y+1));#last neighbor
 		red = p[0];
 		green = p[1];#last intensities
 		blue = p[2];
@@ -74,16 +74,16 @@ for x in range(1, width-1): #iterating through each pixel in the image
 		length = int(length); #floats r bad
 		if length > max_intensity:
 			max_intensity = length;#keep track of the mmax intensity pixel
-		newimg.putpixel((x,y),(length,length,length));#place a pixel with an intensity equal to the length of the gradient
-		p = img.getpixel((x,y));#this is for making color scale images; get a pixel
+		sobel.putpixel((x,y),(length,length,length));#place a pixel with an intensity equal to the length of the gradient
+		p = bushes.getpixel((x,y));#this is for making color scale images; get a pixel
 		red = p[0];
 		green = p[1];#get intensities
 		blue = p[2];
 		greenscale.putpixel((x,y),(0,green,0));
 		redscale.putpixel((x,y),(red,0,0));  #write each color to an individual image
 		bluescale.putpixel((x,y),(0,0,blue));
-incrementx = newimg.width/100;#creating a grid of discrete sites
-incrementy = newimg.height/100;
+incrementx = sobel.width/100;#creating a grid of discrete sites
+incrementy = sobel.height/100;
 gridx = [];#initializing grid starting point arrays
 gridy = [];
 gridx.append(0);#zero elements
@@ -97,21 +97,21 @@ for x in gridx:#iterating through each grid
 		safe = True;
 		for i in range(0, int(incrementx)):#iterating through each pixel in each grid
 			for j in range(0,int(incrementy)):
-				p = newimg.getpixel((x+i,y+j));#get said pixel
+				p = sobel.getpixel((x+i,y+j));#get said pixel
 				if(p[1] > threshold):#if the pixel is too intense
 					safe = False;#its a border, so dont color the grid
 		if safe == True:
 			for i in range(0,int(incrementx)):#iterate through each pixel again to color them
 				for j in range(0,int(incrementy)):
-					newimg.putpixel((int(x+i),int(y+j)),(int(255),int(0),int(0)));#color grid red
-newimg.save(save);
+					sobel.putpixel((int(x+i),int(y+j)),(int(255),int(0),int(0)));#color grid red
+sobel.save(save);
 greenscale.save("greenscale.jpg");#save all images
 bluescale.save("bluescale.jpg");
 redscale.save("redscale.jpg");
 print("Maximum intensity is " + str(max_intensity) + ".");#some good info to have
 print("Sobel image saved as " + save + " in current directory.");
-img.show();
-newimg.show();
+bushes.show();
+sobel.show();
 greenscale.show();#show all images
 redscale.show();
 bluescale.show();

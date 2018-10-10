@@ -1,4 +1,9 @@
 #!/usr/bin/python3.5
+#***********************************************
+#Program: sobel.py
+#Author: takahashi for ESRA payload
+#Date: 10/10/2018
+#***********************************************
 import math
 from PIL import Image
 import os
@@ -100,7 +105,7 @@ for x in gridx:#iterating through each grid
 		for i in range(0, int(incrementx)):#iterating through each pixel in each grid
 			for j in range(0,int(incrementy)):
 			        p = sobel.getpixel((x+i,y+j));#get said pixel
-			        if(p[1] > threshold or bushes.getpixel((x+i,y+j))[1] > greenmax ):#if the pixel is too intense or if theres too much green
+			        if(p[1] > threshold or bushes.getpixel((x+i,y+j))[1] > greenmax ):#if the pixel is too intense or if theres too much green intensity in the original image
 			                safe = False;#its a border, so dont color the grid
 		if safe == True:
 			for i in range(0,int(incrementx)):#iterate through each pixel again to color them

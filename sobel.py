@@ -101,22 +101,23 @@ for g in range(1,99):
 	gridy.append(gridy[g-1]+incrementy);
 for x in gridx:#iterating through each grid
 	for y in gridy:
-		safe = True;
+		bush = True;
 		for i in range(0, int(incrementx)):#iterating through each pixel in each grid
 			for j in range(0,int(incrementy)):
 			        p = sobel.getpixel((x+i,y+j));#get said pixel
 			        if(p[1] > threshold or bushes.getpixel((x+i,y+j))[1] > greenmax ):#if the pixel is too intense or if theres too much green intensity in the original image
-			                safe = False;#its a border, so dont color the grid
-		if safe == True:
+			                bush = False;#its a border, so dont color the grid
+		if bush == True:
 			for i in range(0,int(incrementx)):#iterate through each pixel again to color them
 				for j in range(0,int(incrementy)):
 					bushid.putpixel((int(x+i),int(y+j)),(int(255),int(0),int(0)));#color grid red
+print("Completed sobel imaging");
 sobel.save(save);
 greenscale.save("greenscale.jpg");#save all images
 bluescale.save("bluescale.jpg");
 redscale.save("redscale.jpg");
 bushid.save("bushid.jpg");
-print("Maximum intensity is " + str(max_intensity) + ".");#some good info to have
+print("Maximum intensity in sobel image is " + str(max_intensity) + ".");#some good info to have
 print("Sobel image saved as " + save + " in current directory.");
 bushes.show();
 sobel.show();

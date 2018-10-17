@@ -11,8 +11,8 @@ from os import system
 cwd = os.getcwd();
 os.system('python3 variance.py');
 print(cwd);#this is the directory you need to put the images in
-path = str(input("Main File Path?"));
-save = str(input("Save Sobel image as?"));
+path = str(input("Main File Path?\n"));
+save = str(input("Save Sobel image as?\n"));
 rewidth = 640;
 hsize = 480;
 bushes = Image.open(path); #open the image o be sobel-ed

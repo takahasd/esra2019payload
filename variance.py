@@ -5,7 +5,7 @@ from os import system
 import os
 cwd = os.getcwd();
 print(cwd);
-path = str(input("File Path?"));
+path = str(input("Sample File Path?"));
 sample = Image.open(path);
 sample = sample.convert('RGB');
 width,height = sample.size;

@@ -9,21 +9,21 @@ from PIL import Image
 import os
 from os import system
 cwd = os.getcwd();
-os.system('python3 variance.py');
+os.system('python3 variance.py');#run the other script. read it if you haven't.
 print(cwd);#this is the directory you need to put the images in
 path = str(input("Main File Path?\n"));
 save = str(input("Save Sobel image as?\n"));
-rewidth = 640;
+rewidth = 640;#dimensions for resizing. large images take too long.
 hsize = 480;
 bushes = Image.open(path); #open the image o be sobel-ed
-bushes = bushes.resize((rewidth,hsize),Image.ANTIALIAS);
-bushes.save("COPY.jpg");
+bushes = bushes.resize((rewidth,hsize),Image.ANTIALIAS);#resize image. I don't need this 4K bullshit
+bushes.save("COPY.jpg");#save a copy, we need two of these.
 bushes = bushes.convert('RGB');#make sure it's the right type; without this line, some .png files fail
 max_intensity = 0; #keep track of maximum value for scaling purposes
 width, height = bushes.size; #get size of image
 sobel = Image.new("RGB", (width, height), "white");#create a new blank image of the same dimensions
 greenscale = Image.new("RGB", (width, height),"white"); #create a new blank imagefor each color scale image
-redscale = Image.new("RGB",(width,height),"white");
+redscale = Image.new("RGB",(width,height),"white");#obsolete
 bluescale = Image.new("RGB",(width,height),"white");
 variance_map = Image.new("RGB",(width,height),"white");
 #filter only green
@@ -106,12 +106,12 @@ compliance = Image.open("COPY2.jpg");
 bushid = bushid.convert('RGB');
 greenmax = 100;
 print("Sobel imaging complete.");
-f = open("variance.txt","r");
-center_red = f.readline();
+f = open("variance.txt","r");#opening the variance file to read values
+center_red = f.readline();#read in values of the center of variance
 center_green = f.readline();
 center_blue = f.readline();
-variance_avg = f.readline();
-variance_max = f.readline();
+variance_avg = f.readline();#average variance of the sample texture
+variance_max = f.readline();#maximum variance of the sample texture
 f.close();
 print("Reading variance data...");
 print("Target center is R" + str(int(center_red)) + " G" + str(int(center_green))+ " B"+str(int(center_blue))+".");
@@ -119,11 +119,11 @@ print("Average variance is " + str(int(variance_avg)) + ".");
 print("Maximum variance is " + str(int(variance_max)) + ".");
 print("Establishing grid...");
 g = 0;
-while width > gridx[-1] + 2*incrementx:
+while width > gridx[-1] + 2*incrementx:#make the grid. not worth explaining
     gridx.append(math.floor(gridx[g-1]+incrementx));#For each grid space, initialize x and y values
     g+=1;
 g = 0;
-gridcount = 0;
+gridcount = 0;#grid count for user
 while height > gridy[-1] + 2*incrementy:
     gridy.append(math.floor(gridy[g-1]+incrementy));
     g+=1;
@@ -132,19 +132,19 @@ for x in gridx:#iterating through each grid
     for y in gridy:
         gridcount +=1;
         bush = True;
-        gridComplianceCount = 0;
+        gridComplianceCount = 0;#how many pixels arewithin the average variance of the texture
         for i in range(0, int(incrementx)):#iterating through each pixel in each grid
             for j in range(0,int(incrementy)):
                 p = sobel.getpixel((x+i,y+j));
                 b = bushes.getpixel((x+i,y+j));
-                variance = math.sqrt((int(center_red)-b[0])*(int(center_red)-b[0]) + (int(center_green) - b[1])*(int(center_green)-b[1]) + (int(center_blue)-b[2])*(int(center_blue)-b[2]));
-                if variance < int(variance_avg):
+                variance = math.sqrt((int(center_red)-b[0])*(int(center_red)-b[0]) + (int(center_green) - b[1])*(int(center_green)-b[1]) + (int(center_blue)-b[2])*(int(center_blue)-b[2]));#calculate variance.
+                if variance < int(variance_avg):#if it complies, say it complies.
                     gridComplianceCount += 1;
-                variance_map.putpixel((int(x+i),int(y+j)),(int(variance),int(variance),int(variance)));
+                variance_map.putpixel((int(x+i),int(y+j)),(int(variance),int(variance),int(variance)));#draw it on the variance image. for developer
                 if(p[1] > threshold or variance > int(variance_max)):#if the pixel is too intense or if theres too much green intensity in the original image
                     bush = False;
-        gridCompliance = int(100*float(gridComplianceCount/24));
-        if(gridCompliance < 2):
+        gridCompliance = int(100*float(gridComplianceCount/24));#calculate variance compliance percentage
+        if(gridCompliance < 2):#if the grid has <2% grid compliance, its probably not a bush. 
             bush = False;
         if bush == True:
             for i in range(0,int(incrementx)):#iterate through each pixel again to color them
@@ -152,9 +152,9 @@ for x in gridx:#iterating through each grid
                     bushid.putpixel((int(x+i),int(y+j)),(255,0,0));#color grid red
         for i in range(0,int(incrementx)):
                 for j in range(0,int(incrementy)):
-                        compliance.putpixel((int(x+i),int(y+j)),(int(255*float(gridCompliance)/100),int(255*float(gridCompliance)/100),int(255*float(gridCompliance)/100)));
+                        compliance.putpixel((int(x+i),int(y+j)),(int(255*float(gridCompliance)/100),int(255*float(gridCompliance)/100),int(255*float(gridCompliance)/100)));#draw compliance percentages.
     print("Completed " + str(gridcount) + " grids out of 50000...");
-print("Finished.");
+print("Finished.");#finir
 sobel.save(save);
 #greenscale.save("greenscale.jpg");#save all images
 #bluescale.save("bluescale.jpg");

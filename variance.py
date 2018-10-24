@@ -4,7 +4,6 @@ import math
 from os import system
 import os
 cwd = os.getcwd();
-print(cwd);
 path = str(input("Sample File Path?\n"));
 sample = Image.open(path);
 sample = sample.convert('RGB');

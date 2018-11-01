@@ -91,7 +91,7 @@ def featureRecog(image,x1,y1,x2,y2,tn):#This function is run by each thread.
         gridy.append(math.floor(gridy[g-1]+int(incrementy)));
     #print("Beginning edge and variance comparison...");
     for x in gridx:#iterating through each grid
-        for y in gridy:
+        for y in gridyf
             gridcount +=1;
             bush = True;
             gridComplianceCount = 0;#how many pixels arewithin the average variance of the texture

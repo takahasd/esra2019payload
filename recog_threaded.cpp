@@ -201,6 +201,9 @@ image stitch(image img1, image img2, image img3, image img4)//puts images back t
 	img.matrix = blank;
 	return img;//return complete image
 }
+void grid_fill(float h, float theta_x, float theta_y)
+{
+}	
 int main()
 {
 	int red,green,blue,v_avg,v_max;

@@ -85,6 +85,7 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 				cout<<"Something is fucky."<<endl;
 				cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;
 			}
+			cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;	
 		}
 	}
 	cout<<"Averages:"<<avg_r<<" "<<avg_g<<" "<<avg_b<<endl;

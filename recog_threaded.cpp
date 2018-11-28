@@ -94,6 +94,9 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 			int dist_r = avg_r - img.p[0];//distance on each axis
 			int dist_g = avg_g - img.p[1];
 			int dist_b = avg_b - img.p[2];
+			cout<<"Operations:"<<dist_r<<"="<<avg_r<<"-"<<img.p[0]<<endl;
+			cout<<dist_g<<"="<<avg_g<<"-"<<img.p[1]<<endl;
+			cout<<dist_b<<"="<<avg_b<<"-"<<img.p[2]<<endl;
 			int variance = sqrt(dist_r*dist_r + dist_g*dist_g + dist_b*dist_b);//pythagorean distance to center
 			if(variance > var_max)//keep tabs of the maximum variance seen
 			{

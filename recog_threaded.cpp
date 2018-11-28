@@ -80,6 +80,11 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 			avg_r += img.p[0];
 			avg_g += img.p[1];
 			avg_b += img.p[2];
+			if(img.p[0]>255||img.p[1]>255||img.p[2]>255)
+			{
+				cout<<"Something is fucky."<<endl;
+				cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;
+			}
 		}
 	}
 	cout<<"Averages:"<<avg_r<<" "<<avg_g<<" "<<avg_b<<endl;

@@ -1,4 +1,4 @@
-#include<opencv2/opencv.hpp>
+#include</home/danny/build/install/include/opencv4/opencv2/opencv.hpp>
 #include<cmath>
 #include<string>
 #include<iostream>
@@ -13,7 +13,7 @@ class image		//image object.
 		Mat matrix;	//actual image matrix
 		void open(string image)	//open an image
 		{
-			matrix = imread(image, CV_LOAD_IMAGE_COLOR);
+			matrix = imread(image, IMREAD_COLOR);
 			if(!matrix.data)
 			{
 				cout<<"File does not exist."<<endl;
@@ -85,6 +85,7 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 	avg_r = avg_r/(width*height);
 	avg_g = avg_g/(width*height);//average sums to find center
 	avg_b = avg_b/(width*height);
+	cout<<"Center:"<<avg_r<<endl<<avg_g<<endl<<avg_b<<endl;
 	for(int x=0;x<width;x++)//these loops handle variance.
 	{
 		for(int y=0;y<height;y++)
@@ -201,8 +202,40 @@ image stitch(image img1, image img2, image img3, image img4)//puts images back t
 	img.matrix = blank;
 	return img;//return complete image
 }
-void grid_fill(float h, float theta_x, float theta_y)
+bool* grid_fill(image img,float h, float theta_x, float theta_y)
 {
+	int lim = 8;
+	int redcount;
+	bool map[60][60];
+	for(int x=0;x<img.matrix.size().width/8;x++)
+	{
+		for(int y=0;y<img.matrix.size().height/4;y++)
+		{
+			redcount = 0;	
+			for(int i=0;i<8;i++)
+			{
+				for(int j=0;j<4;j++)
+				{
+					img.get_pixel(8*x+i,4*y+j);
+					if(img.p[0] == 255 && img.p[1] == 0 && img.p[2] == 0)
+					{
+						redcount++;
+					}
+				}
+			}
+			if(redcount > lim)
+			{
+				map[x][y] = false;
+			}
+			else
+			{
+				map[x][y] = true;
+			}
+		}
+	}
+	return &map[0][0];
+
+
 }	
 int main()
 {
@@ -218,6 +251,8 @@ int main()
 	cout<<"Image?"<<endl;//actual image file
 	cin>>name2;
 	sample_check(name1,r,g,b,var_avg,var_max);//get sample data
+	cout<<"Avg:"<<*var_avg<<endl;
+	cout<<"max:"<<*var_max<<endl;
 	image img;
 	img.open(name2);//open main image
 	image resized = img.re_size(480,240);//resize main image
@@ -231,6 +266,8 @@ int main()
 	fourth.join();
 	image done = stitch(img1,img3,img2,img4);//make it whole again. 
 	image varmap = stitch(var1,var3,var2,var4);
+	grid_fill(done,50,0,0);
+	imwrite("pres.jpg",done.matrix);
 	namedWindow("Done",WINDOW_AUTOSIZE);//make windows. opencv sucks. 
 	imshow("Done",done.matrix);//show it
 	namedWindow("varmap",WINDOW_AUTOSIZE);

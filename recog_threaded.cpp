@@ -67,6 +67,9 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 	double avg_b;
 	double avg_r;
 	double avg_g;
+	double hold_r;
+	double hold_g;
+	double hold_b;
 	int var_max=0;
 	int var_avg;
 	int var_sum;

@@ -226,7 +226,7 @@ image stitch(image img1, image img2, image img3, image img4)//puts images back t
 	img.matrix = blank;
 	return img;//return complete image
 }
-void image()
+void imtest()
 {
 	VideoCapture cap(0);
 	Mat frame;
@@ -304,6 +304,6 @@ int main()
 	namedWindow("varmap",WINDOW_AUTOSIZE);
 	imshow("varmap",varmap.matrix);
 	waitKey(0);//wait until a key is pressed. 
-	image();
+	imtest();
 	return 0;
 }

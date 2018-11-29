@@ -226,6 +226,13 @@ image stitch(image img1, image img2, image img3, image img4)//puts images back t
 	img.matrix = blank;
 	return img;//return complete image
 }
+void image()
+{
+	VideoCapture cap(0);
+	Mat frame;
+	cap>>frame;
+	imwrite("camtest.jpg",frame);
+}
 bool* grid_fill(image img,float h, float theta_x, float theta_y)
 {
 	int lim = 8;
@@ -297,5 +304,6 @@ int main()
 	namedWindow("varmap",WINDOW_AUTOSIZE);
 	imshow("varmap",varmap.matrix);
 	waitKey(0);//wait until a key is pressed. 
+	image();
 	return 0;
 }

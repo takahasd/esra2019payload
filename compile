@@ -1,6 +1,6 @@
 #!/bin/bash
 g++ recog_threaded.cpp -I/home/danny/build/install/include/opencv4 -L/home/danny/build/install/lib -lopencv_dnn -lopencv_ml -lopencv_objdetect -lopencv_shape -lopencv_stitching -lopencv_superres -lopencv_videostab -lopencv_calib3d -lopencv_features2d -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -lopencv_video -lopencv_photo -lopencv_imgproc -lopencv_flann -lopencv_core -lpthread -o recog -g
-arm-linux-gnueabihf-g++ recog_threaded.cpp -I/home/danny/build/install/include/opencv4 -L/home/danny/build/install/lib -lopencv_dnn -lopencv_ml -lopencv_objdetect -lopencv_stitching -lopencv_calib3d -lopencv_features2d -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -lopencv_video -lopencv_photo -lopencv_imgproc -lopencv_flann -lopencv_core -lpthread -o recog_arm -g
+arm-linux-gnueabihf-g++ recog_threaded.cpp -I/home/danny/build/install/include/opencv4 -L/home/danny/build/install/lib -lopencv_dnn -lopencv_ml -lopencv_objdetect -lopencv_stitching -lopencv_calib3d -lopencv_features2d -lopencv_videoio -lopencv_imgcodecs -lopencv_video -lopencv_photo -lopencv_imgproc -lopencv_flann -lopencv_core -lpthread -o recog_arm -g
 git add .
 git commit -m "compiled"
 git push origin master

@@ -64,9 +64,9 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 {
 	image img;
 	img.open(var_test);//open sample image
-	int avg_b;
-	int avg_r;
-	int avg_g;
+	double avg_b;
+	double avg_r;
+	double avg_g;
 	int var_max=0;
 	int var_avg;
 	int var_sum;
@@ -77,9 +77,20 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 		for(int y=0;y<height;y++)
 		{
 			img.get_pixel(x,y);
+			hold_r = avg_r;
+			hold_b = avg_b;
+			hold_g = avg_g;
 			avg_r += img.p[0];
 			avg_g += img.p[1];
 			avg_b += img.p[2];
+			if(avg_r>500000||avg_g>500000||avg_b>500000)
+			{
+				cout<<"Something is fucky."<<endl;
+				cout<<"Last operation was:"<<avg_r<<"="<<hold_r<<"+"img.p[0]<<endl;
+				cout<<avg_g<<"="<<hold_g<<"+"<<img.p[1]<<endl;
+				cout<<avg_b<<"="<<hold_b<<"+"<<img.p[2]<<endl;
+			}
+
 			if(img.p[0]>255||img.p[1]>255||img.p[2]>255)
 			{
 				cout<<"Something is fucky."<<endl;

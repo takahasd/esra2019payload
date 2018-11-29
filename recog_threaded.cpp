@@ -89,7 +89,7 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 			if(avg_r>500000||avg_g>500000||avg_b>500000)
 			{
 				cout<<"Something is fucky."<<endl;
-				cout<<"Last operation was:"<<avg_r<<"="<<hold_r<<"+"img.p[0]<<endl;
+				cout<<"Last operation was:"<<avg_r<<"="<<hold_r<<"+"<<img.p[0]<<endl;
 				cout<<avg_g<<"="<<hold_g<<"+"<<img.p[1]<<endl;
 				cout<<avg_b<<"="<<hold_b<<"+"<<img.p[2]<<endl;
 			}

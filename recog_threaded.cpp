@@ -19,7 +19,7 @@ class image		//image object.
 				cout<<"File does not exist."<<endl;
 			}
 		}
-		void get_pixel(int x,int y)//get a pixel, put it in p, since c sucks at returning arrays. 
+		void get_pixel(int x,int y)//get a pixel, put it in p, since c is bad at returning arrays. 
 		{
 			cv::Vec3b pixel;
 			pixel = matrix.at<cv::Vec3b>(y,x);
@@ -88,7 +88,6 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 			avg_b += img.p[2];
 			if(avg_r>500000||avg_g>500000||avg_b>500000)
 			{
-				cout<<"Something is fucky."<<endl;
 				cout<<"Last operation was:"<<avg_r<<"="<<hold_r<<"+"<<img.p[0]<<endl;
 				cout<<avg_g<<"="<<hold_g<<"+"<<img.p[1]<<endl;
 				cout<<avg_b<<"="<<hold_b<<"+"<<img.p[2]<<endl;
@@ -96,7 +95,6 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 
 			if(img.p[0]>255||img.p[1]>255||img.p[2]>255)
 			{
-				cout<<"Something is fucky."<<endl;
 				cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;
 			}
 			cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;	

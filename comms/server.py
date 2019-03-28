@@ -14,6 +14,8 @@ def vel_server():
                     data = conn.recv(1024)
                     if not data:
                         break
-                    conn.sendall(b'confirm receive')
+                    velocity = int.from_bytes(data,byteorder = 'little')
+                    print("Recieved setpoint of ",velocity)
+                    conn.sendall(b'confirm received')
 if __name__=="__main__":
     vel_server()

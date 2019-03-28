@@ -37,7 +37,7 @@ int send_velocity(int* velocity)
 }
 int main()
 {
-	int velocity = 0;
+	int velocity = 20;
 	int* vel = &velocity;
 	send_velocity(vel);
 	return 0;

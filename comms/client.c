@@ -33,13 +33,19 @@ int send_velocity(int* velocity)
 	printf("Velocity Sent\n");
 	valread = read(sock,buffer,1024);
 	printf("%s\n",buffer);
+	shutdown(sock,2);
 	return 0;	
 }
 int main()
 {
-	int velocity = 20;
+	int velocity = 0;
 	int* vel = &velocity;
-	send_velocity(vel);
+	while(1)
+	{
+		printf("Setpoint:");
+		scanf("%d",vel);
+		send_velocity(vel);
+	}
 	return 0;
 }
 

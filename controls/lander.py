@@ -58,18 +58,3 @@ while 1:
     else:
         reel_out(abs(control))
     time.sleep(0.1)
-#while 1:
-  #  com = input("waiting on user...\n")
-   # s = com.split()
-    #try:
-     #   if len(s)>1:
-      #      speed = int(s[1])
-        #command = s[0]
-    #except:
-     #   print("nice typo, stupid.")
-    #if command=='in':
-    #    reel_in(speed)
-    #if command=='out':
-     #   reel_out(speed)
-    #if command=='stop':
-     #   reel_in(0)

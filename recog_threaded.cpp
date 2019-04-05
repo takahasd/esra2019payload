@@ -95,7 +95,7 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 
 			if(img.p[0]>255||img.p[1]>255||img.p[2]>255)
 			{
-				cout>>"Pixel is too large."<<endl;
+				cout<<"Pixel is too large."<<endl;
 				cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;
 			}
 			cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;	

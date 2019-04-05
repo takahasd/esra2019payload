@@ -64,15 +64,15 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 {
 	image img;
 	img.open(var_test);//open sample image
-	double avg_b;
-	double avg_r;
-	double avg_g;
+	double avg_b=0;
+	double avg_r=0;
+	double avg_g=0;
 	double hold_r;
 	double hold_g;
 	double hold_b;
 	int var_max=0;
-	int var_avg;
-	int var_sum;
+	int var_avg=0;
+	int var_sum=0;
 	int width = img.matrix.size().width;//keep tabs of size
 	int height = img.matrix.size().height;
 	for(int x=0;x<width;x++)//these loops find the center. sum colors of all pixels
@@ -88,9 +88,9 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 			avg_b += img.p[2];
 			if(avg_r>500000||avg_g>500000||avg_b>500000)
 			{
-				//cout<<"Last operation was:"<<avg_r<<"="<<hold_r<<"+"<<img.p[0]<<endl;
-				//cout<<avg_g<<"="<<hold_g<<"+"<<img.p[1]<<endl;
-				//cout<<avg_b<<"="<<hold_b<<"+"<<img.p[2]<<endl;
+				cout<<"Last operation was:"<<avg_r<<"="<<hold_r<<"+"<<img.p[0]<<endl;
+				cout<<avg_g<<"="<<hold_g<<"+"<<img.p[1]<<endl;
+				cout<<avg_b<<"="<<hold_b<<"+"<<img.p[2]<<endl;
 			}
 
 			if(img.p[0]>255||img.p[1]>255||img.p[2]>255)
@@ -98,7 +98,7 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 				cout<<"Pixel is too large."<<endl;
 				cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;
 			}
-			cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;	
+			//cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;	
 		}
 	}
 	cout<<"Sums:"<<avg_r<<" "<<avg_g<<" "<<avg_b<<endl;

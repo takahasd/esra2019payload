@@ -88,9 +88,9 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 			avg_b += img.p[2];
 			if(avg_r>500000||avg_g>500000||avg_b>500000)
 			{
-				cout<<"Last operation was:"<<avg_r<<"="<<hold_r<<"+"<<img.p[0]<<endl;
-				cout<<avg_g<<"="<<hold_g<<"+"<<img.p[1]<<endl;
-				cout<<avg_b<<"="<<hold_b<<"+"<<img.p[2]<<endl;
+				//cout<<"Last operation was:"<<avg_r<<"="<<hold_r<<"+"<<img.p[0]<<endl;
+				//cout<<avg_g<<"="<<hold_g<<"+"<<img.p[1]<<endl;
+				//cout<<avg_b<<"="<<hold_b<<"+"<<img.p[2]<<endl;
 			}
 
 			if(img.p[0]>255||img.p[1]>255||img.p[2]>255)
@@ -101,7 +101,7 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 			cout<<img.p[0]<<" "<<img.p[1]<<" "<<img.p[2]<<endl;	
 		}
 	}
-	cout<<"Averages:"<<avg_r<<" "<<avg_g<<" "<<avg_b<<endl;
+	cout<<"Sums:"<<avg_r<<" "<<avg_g<<" "<<avg_b<<endl;
 	avg_r = avg_r/(width*height);
 	avg_g = avg_g/(width*height);//average sums to find center
 	avg_b = avg_b/(width*height);
@@ -131,6 +131,8 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 	*b = avg_b;
 	*var_av = var_avg;
 	*var_ma = var_max;
+	cout<<"Average Variance: "<<var_avg<<endl;
+	cout<<"Max Variance: "<<var_max<<endl;
 
 }
 image img1,img2,img3,img4,var1,var2,var3,var4;

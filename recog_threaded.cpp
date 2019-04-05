@@ -1,4 +1,4 @@
-#include</home/danny/build/install/include/opencv4/opencv2/opencv.hpp>
+#include</home/pi/opencv_install/installation/opencv/include/opencv2/opencv.hpp>
 #include<cmath>
 #include<string>
 #include<iostream>

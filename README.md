@@ -9,5 +9,12 @@ All images need to be in the same directory as the scripts.
 variance.txt needs to be in the same directory as the scripts. 
 ***OUTDATED******************************************************************************************************************************
 c++ works now. "compile" is a bash script that links all the libraries you need. 
-work basically the same as the python script. you need a functional openCV install. 
-
+works basically the same as the python script. you need a functional openCV install. 
+all the parachute control and righting scripts are in the "controls" folder. 
+These won't actually run on anything other than the Pi, mostly because your laptop doesnt have GPIO pins. 
+The "comms" folder has all the IPC code for communicating between the CV process and the parachute control python process.
+I'm 1050 miles from the pi right now, so the C clientside functions will be integrated into the main program when I get back to school.
+Serverside python stuff works, and should be able to be imported and run on a separate thread in lander.py, but again, can't run that until I'm with the pi. 
+Next up is fixing the pi's openCV install, since the SD card decided to become corrupt. 
+Currently running a kernel from early 2017, but hopefully that won't make a difference. 
+It probably will. 

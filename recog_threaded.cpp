@@ -338,7 +338,7 @@ int main()
 	fourth.join();
 	image done = stitch(img1,img3,img2,img4);//make it whole again. 
 	image varmap = stitch(var1,var3,var2,var4);
-	grid_fill(done,50,0,0);
+	//grid_fill(done,50,0,0);
 	imwrite("pres.jpg",done.matrix);
 	namedWindow("Done",WINDOW_AUTOSIZE);//make windows. opencv sucks. 
 	imshow("Done",done.matrix);//show it

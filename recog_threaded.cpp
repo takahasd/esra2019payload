@@ -86,7 +86,7 @@ int send_velocity(int* velocity)
 		printf("\n Invalid Address/Address not supported \n");
 		return -1;
 	}
-	if (connect(sock,(struct sockaddr *)&serv_addr,aiseof(serv_addr))<0)
+	if (connect(sock,(struct sockaddr *)&serv_addr,sizeof(serv_addr))<0)
 	{
 		printf("\n Connection Failed\n");
 	}
@@ -343,7 +343,7 @@ int main()
 	imshow("varmap",varmap.matrix);
 	waitKey(0);//wait until a key is pressed. 
 	int vel_test = 20;
-	int* velocity = &veltest;
+	int* velocity = &vel_test;
 	send_velocity(velocity);
 	imtest();
 	return 0;

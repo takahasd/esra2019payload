@@ -10,7 +10,7 @@
 #include<netinet/in.h>
 #include<string.h>
 #include<arpa/inet.h>
-#define PORT 65436
+#define PORT 65435
 using namespace std;
 using namespace cv;
 class image		//image object.

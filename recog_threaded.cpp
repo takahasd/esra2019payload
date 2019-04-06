@@ -4,6 +4,13 @@
 #include<iostream>
 #include<unistd.h>
 #include<thread>
+#include<stdio.h>
+#include<sys/socket.h>
+#include<stdlib.h>
+#include<netinet/in.h>
+#include<string.h>
+#include<arpa/inet.h>
+#define PORT 65436
 using namespace std;
 using namespace cv;
 class image		//image object.
@@ -59,7 +66,37 @@ class image		//image object.
 			return resized;
 		}	
 	
-};		
+};
+int send_velocity(int* velocity)
+{
+	struct sockaddr_in address;
+	int sock = 0,valread;
+	struct sockaddr_in serv_addr;
+	char buffer[1024]={0};
+	if ((sock = socket(AF_INET,SOCK_STREAM,0)) < 0)
+	{
+		printf("\n Socket Creation Error \n");
+		return -1;
+	}
+	memset(&serv_addr,'0',sizeof(serv_addr));
+	serv_addr.sin_family = AF_INET;
+	serv_addr.sin_port = htons(PORT);
+	if (inet_pton(AF_INET,"127.0.0.1",&serv_addr.sin_addr)<=0)
+	{
+		printf("\n Invalid Address/Address not supported \n");
+		return -1;
+	}
+	if (connect(sock,(struct sockaddr *)&serv_addr,aiseof(serv_addr))<0)
+	{
+		printf("\n Connection Failed\n");
+	}
+	send(sock,velocity,4,0);
+	printf("Velocity Sent");
+	valread = read(sock,buffer,1024);
+	printf("%s\n",buffer);
+	shutdown(sock,2);
+	return 0;
+}
 int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma)//analyzes sample texture. 
 {
 	image img;
@@ -305,6 +342,9 @@ int main()
 	namedWindow("varmap",WINDOW_AUTOSIZE);
 	imshow("varmap",varmap.matrix);
 	waitKey(0);//wait until a key is pressed. 
+	int vel_test = 20;
+	int* velocity = &veltest;
+	send_velocity(velocity);
 	imtest();
 	return 0;
 }

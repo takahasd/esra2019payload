@@ -91,7 +91,7 @@ int send_velocity(int* velocity)
 		printf("\n Connection Failed\n");
 	}
 	send(sock,velocity,4,0);
-	printf("Velocity Sent");
+	printf("Velocity Sent\n");
 	valread = read(sock,buffer,1024);
 	printf("%s\n",buffer);
 	shutdown(sock,2);
@@ -185,6 +185,7 @@ image featureRecog(image img, int x1, int y1, int x2, int y2,int avg_r, int avg_
 	bool bush;//im aware this has a confusing name.
 	int variance;
 	float gridCompliance;
+	bool zones[120][120];
 	for(int x=0;x<delg.matrix.size().width/4;x++)//divide into four pixel by two pixel grid. 
 	{	
 		for(int y=0;y<delg.matrix.size().height/2;y++)
@@ -212,9 +213,11 @@ image featureRecog(image img, int x1, int y1, int x2, int y2,int avg_r, int avg_
 			if(gridComplianceCount<1)//this used to be more sophisticated. if none fell within the average distance
 			{
 				bush = false;//probably not a bush
+				zones[x][y] = true;
 			}
 			if(bush==true)//if it is a bush
 			{
+				zones[x][y] = false;
 				for(int i=0;i<4;i++)
 				{
 					for(int j=0;j<2;j++)
@@ -225,7 +228,7 @@ image featureRecog(image img, int x1, int y1, int x2, int y2,int avg_r, int avg_
 			}		
 		}
 	}
-	if(det==1)//im aware gloabl variables are the devil but it was so much easier this way. 
+	if(det==1)//im aware global variables are the devil but it was so much easier this way. 
 	{
 		img1 = delg;
 		var1 = varmap;
@@ -271,7 +274,7 @@ void imtest()
 	cap>>frame;
 	imwrite("camtest.jpg",frame);
 }
-bool* grid_fill(image img,float h, float theta_x, float theta_y)
+/*bool* grid_fill(image img,float h, float theta_x, float theta_y)
 {
 	int lim = 8;
 	int redcount;
@@ -305,7 +308,7 @@ bool* grid_fill(image img,float h, float theta_x, float theta_y)
 	return &map[0][0];
 
 
-}	
+}*/	
 int main()
 {
 	int red,green,blue,v_avg,v_max;

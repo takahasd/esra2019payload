@@ -281,7 +281,7 @@ image featureRecog(image img, int x1, int y1, int x2, int y2,int avg_r, int avg_
 	}
 	return delg;//return it for fun. I used to use this before it was multithreaded 
 }
-image check(bool** zones)
+image check(bool zones[60][60])
 {	image lzmap;
 	Mat map(120,240,CV_8UC3,Scalar(0,0,0));
 	lzmap.matrix = map;

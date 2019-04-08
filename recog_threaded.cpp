@@ -311,7 +311,7 @@ image check(bool zones[60][60])
 					}
 				}
 			}
-			lzmap.set_group(4*x,2*y,safe);
+			lzmap.set_group(8*x,8*y,safe);
 		}
 	}
 	return lzmap;

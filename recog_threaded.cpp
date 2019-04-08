@@ -18,6 +18,7 @@ class image		//image object.
 	public:
 		int p[3];//holds the current pixel [r,g,b]
 		Mat matrix;	//actual image matrix
+		bool lz[30][15];
 		void open(string image)	//open an image
 		{
 			matrix = imread(image, IMREAD_COLOR);
@@ -69,6 +70,10 @@ class image		//image object.
 					this->set_pixel(x+x1,y+y1,r,g,b);
 				}
 			}
+		}
+		void set_lz(int x, int y, bool safe)
+		{
+			lz[x][y] = safe;
 		}
 		image crop(int x1, int y1, int x2, int y2)//crop a certain part of the image. returns a new, cropped image. original image is intact. 
 		{
@@ -199,6 +204,7 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 }
 image img1,img2,img3,img4,var1,var2,var3,var4;
 bool zone1[60][60],zone2[60][60],zone3[60][60],zone4[60][60];
+bool lz_final[60][30];
 void copy_array(bool a[60][60],bool b[60][60])
 {
 	for(int x=0;x<60;x++)
@@ -312,9 +318,41 @@ image check(bool zones[60][60])
 				}
 			}
 			lzmap.set_group(8*x,8*y,safe);
+			lzmap.set_lz(x,y,safe);
 		}
 	}
 	return lzmap;
+}
+void stitch_lz(bool target[60][30],bool z1[30][15],bool z2[30][15],bool z3[30][15],bool z4[30][15])
+{
+	for(int x=0;x<30;x++)
+	{
+		for(int y=0;y<15;y++)
+		{
+			target[x][y]=z1[x][y];
+		}
+	}
+	for(x=0;x<30;x++)
+	{
+		for(y=0;y<15;y++)
+		{
+			target[x+30][y]=z3[x][y];
+		}
+	}
+	for(x=0;x<30;x++)
+	{
+		for(y=0;y<15;y++)
+		{
+			target[x][y+15]=z2[x][y];
+		}
+	}
+	for(x=0;x<30;x++)
+	{
+		for(y=0;y<15;y++)
+		{
+			target[x+30][y+15]=z4[x][y];
+		}
+	}
 }
 image stitch(image img1, image img2, image img3, image img4)//puts images back together after theyre taken apart by the threads
 {
@@ -406,6 +444,7 @@ int main()
 	image lz2 = check(zone2);
 	image lz3 = check(zone3);
 	image lz4 = check(zone4);
+	stitch_lz(lz_final,lz1.lz,lz2.lz,lz3.lz,lz4.lz);
 	image lz = stitch(lz1,lz2,lz3,lz4);
 	image done = stitch(img1,img3,img2,img4);//make it whole again. 
 	image varmap = stitch(var1,var3,var2,var4);

@@ -199,6 +199,16 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 }
 image img1,img2,img3,img4,var1,var2,var3,var4;
 bool zone1[60][60],zone2[60][60],zone3[60][60],zone4[60][60];
+void copy_array(bool a[60][60],b[60][60])
+{
+	for(int x=0;x<60;x++)
+	{
+		for(inty=0;y<60;y++)
+		{
+			b[x][y] = a[x][y];
+		}
+	}
+}
 image featureRecog(image img, int x1, int y1, int x2, int y2,int avg_r, int avg_g,int avg_b, int var_avg, int var_max,int det)
 {
 	image varmap;//this was for debugging. creates a b/w image representing variance.
@@ -259,25 +269,25 @@ image featureRecog(image img, int x1, int y1, int x2, int y2,int avg_r, int avg_
 	{
 		img1 = delg;
 		var1 = varmap;
-		zone1 = zones;
+		copy_array(zones,zone1);
 	}
 	if(det==2)
 	{
 		img2 = delg;
 		var2 = varmap;
-		zone2 = zones;
+		copy_array(zones,zone2);
 	}
 	if(det==3)
 	{
 		img3 = delg;
 		var3 = varmap;
-		zone3 = zones;
+		copy_array(zones,zone3);
 	}
 	if(det==4)
 	{
 		img4 = delg;
 		var4 = varmap;
-		zone4 = zones;
+		copy_array(zones,zone4);
 	}
 	return delg;//return it for fun. I used to use this before it was multithreaded 
 }
@@ -306,7 +316,6 @@ image check(bool zones[60][60])
 	}
 	return lzmap;
 }
-
 image stitch(image img1, image img2, image img3, image img4)//puts images back together after theyre taken apart by the threads
 {
 	Mat blank(240,480,CV_8UC3,Scalar(0,0,0));

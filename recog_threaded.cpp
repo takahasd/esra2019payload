@@ -203,7 +203,7 @@ void copy_array(bool a[60][60],bool b[60][60])
 {
 	for(int x=0;x<60;x++)
 	{
-		for(inty=0;y<60;y++)
+		for(int y=0;y<60;y++)
 		{
 			b[x][y] = a[x][y];
 		}

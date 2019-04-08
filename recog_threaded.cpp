@@ -45,6 +45,28 @@ class image		//image object.
 			pixel[0] = uchar(b);
 			matrix.at<cv::Vec3b>(y,x) = pixel;
 		}
+		void set_group(int x,int y,bool safe)
+		{
+			if(safe==true)
+			{
+				int r = 0;
+				int b = 0;
+				int g = 255;
+			}
+			else
+			{
+				int r = 255;
+				int g = 0;
+				int b  = 0;
+			}
+			for(int x1 = 0,x1<8,x1++)
+			{
+				for(int y1 = 0;y1<8,y1++)
+				{
+					this->set_pixel(x+x1,y+y1,r,g,b);
+				}
+			}
+		}
 		image crop(int x1, int y1, int x2, int y2)//crop a certain part of the image. returns a new, cropped image. original image is intact. 
 		{
 			image new_img;
@@ -173,10 +195,12 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 
 }
 image img1,img2,img3,img4,var1,var2,var3,var4;
+bool zone1[60][60],zone2[60][60],zone3[60][60],zone4[60][60];
 image featureRecog(image img, int x1, int y1, int x2, int y2,int avg_r, int avg_g,int avg_b, int var_avg, int var_max,int det)
 {
 	image varmap;//this was for debugging. creates a b/w image representing variance.
 	Mat map(120,240,CV_8UC3,Scalar(0,0,0));
+	Mat zmap(120,240,CV_8UC3,Scalar(0,0,0));
 	varmap.matrix = map;
 	image delg;
 	delg = img.crop(x1,y1,x2,y2);//crop to specified size. 
@@ -185,7 +209,7 @@ image featureRecog(image img, int x1, int y1, int x2, int y2,int avg_r, int avg_
 	bool bush;//im aware this has a confusing name.
 	int variance;
 	float gridCompliance;
-	bool zones[120][120];
+	bool zones[60][60];
 	for(int x=0;x<delg.matrix.size().width/4;x++)//divide into four pixel by two pixel grid. 
 	{	
 		for(int y=0;y<delg.matrix.size().height/2;y++)
@@ -232,24 +256,54 @@ image featureRecog(image img, int x1, int y1, int x2, int y2,int avg_r, int avg_
 	{
 		img1 = delg;
 		var1 = varmap;
+		zone1 = zones;
 	}
 	if(det==2)
 	{
 		img2 = delg;
 		var2 = varmap;
+		zone2 = zones;
 	}
 	if(det==3)
 	{
 		img3 = delg;
 		var3 = varmap;
+		zone3 = zones;
 	}
 	if(det==4)
 	{
 		img4 = delg;
 		var4 = varmap;
+		zone4 = zones;
 	}
 	return delg;//return it for fun. I used to use this before it was multithreaded 
 }
+image check(bool** zones)
+{	image lzmap;
+	Mat map(120,240,CV_8UC3,Scalar(0,0,0));
+	lzmap.matrix = map;
+	bool safe;
+	for(int x=0;x<30;x++)
+	{
+		for(int y=0;y<15;y++)
+		{	
+			safe = true;
+			for(int x1=0;x1<2;x1++)
+			{
+				for(int y1=0;y1<4;y1++)
+				{
+					if(zones[2*x+x1][4*y+y1]==false)
+					{
+						safe = false
+					}
+				}
+			}
+			lzmap.set_group(x,y,safe);
+		}
+	}
+	return lzmap;
+}
+
 image stitch(image img1, image img2, image img3, image img4)//puts images back together after theyre taken apart by the threads
 {
 	Mat blank(240,480,CV_8UC3,Scalar(0,0,0));
@@ -336,18 +390,23 @@ int main()
 	second.join();
 	third.join();
 	fourth.join();
+	lz1 = check(&zone1);
+	lz2 = check(&zone2);
+	lz3 = check(&zone3);
+	lz4 = check(&zone4);
+	image lz = stitch(lz1,lz2,lz3,lz4);
 	image done = stitch(img1,img3,img2,img4);//make it whole again. 
 	image varmap = stitch(var1,var3,var2,var4);
 	//grid_fill(done,50,0,0);
 	imwrite("pres.jpg",done.matrix);
 	namedWindow("Done",WINDOW_AUTOSIZE);//make windows. opencv sucks. 
 	imshow("Done",done.matrix);//show it
-	namedWindow("varmap",WINDOW_AUTOSIZE);
-	imshow("varmap",varmap.matrix);
+	namedWindow("LZ",WINDOW_AUTOSIZE);
+	imshow("LZ",lz.matrix);
 	waitKey(0);//wait until a key is pressed. 
 	int vel_test = 20;
 	int* velocity = &vel_test;
 	send_velocity(velocity);
-	imtest();
+	//imtest();
 	return 0;
 }

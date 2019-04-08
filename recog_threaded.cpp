@@ -199,7 +199,7 @@ int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma
 }
 image img1,img2,img3,img4,var1,var2,var3,var4;
 bool zone1[60][60],zone2[60][60],zone3[60][60],zone4[60][60];
-void copy_array(bool a[60][60],b[60][60])
+void copy_array(bool a[60][60],bool b[60][60])
 {
 	for(int x=0;x<60;x++)
 	{

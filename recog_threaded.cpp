@@ -47,11 +47,14 @@ class image		//image object.
 		}
 		void set_group(int x,int y,bool safe)
 		{
+			int r = 0;
+			int g = 0;
+			int b = 0;
 			if(safe==true)
 			{
-				int r = 0;
-				int b = 0;
-				int g = 255;
+				r = 0;
+				b = 0;
+				g = 255;
 			}
 			else
 			{
@@ -59,9 +62,9 @@ class image		//image object.
 				int g = 0;
 				int b  = 0;
 			}
-			for(int x1 = 0,x1<8,x1++)
+			for(int x1 = 0;x1<8;x1++)
 			{
-				for(int y1 = 0;y1<8,y1++)
+				for(int y1 = 0;y1<8;y1++)
 				{
 					this->set_pixel(x+x1,y+y1,r,g,b);
 				}

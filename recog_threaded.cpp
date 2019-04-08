@@ -297,7 +297,7 @@ image check(bool** zones)
 				{
 					if(zones[2*x+x1][4*y+y1]==false)
 					{
-						safe = false
+						safe = false;
 					}
 				}
 			}
@@ -393,10 +393,10 @@ int main()
 	second.join();
 	third.join();
 	fourth.join();
-	lz1 = check(&zone1);
-	lz2 = check(&zone2);
-	lz3 = check(&zone3);
-	lz4 = check(&zone4);
+	image lz1 = check(zone1);
+	image lz2 = check(zone2);
+	image lz3 = check(zone3);
+	image lz4 = check(zone4);
 	image lz = stitch(lz1,lz2,lz3,lz4);
 	image done = stitch(img1,img3,img2,img4);//make it whole again. 
 	image varmap = stitch(var1,var3,var2,var4);

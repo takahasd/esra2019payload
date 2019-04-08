@@ -444,9 +444,9 @@ int main()
 	image lz2 = check(zone2);
 	image lz3 = check(zone3);
 	image lz4 = check(zone4);
-	cout<<lz_final[0][0];
+	cout<<lz_final[2][0];
 	stitch_lz(lz_final,lz1.lz,lz2.lz,lz3.lz,lz4.lz);
-	cout<<lz_final[0][0];
+	cout<<lz_final[1][0];
 	image lz = stitch(lz1,lz2,lz3,lz4);
 	image done = stitch(img1,img3,img2,img4);//make it whole again. 
 	image varmap = stitch(var1,var3,var2,var4);

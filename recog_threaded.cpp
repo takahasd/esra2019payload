@@ -332,21 +332,21 @@ void stitch_lz(bool target[60][30],bool z1[30][15],bool z2[30][15],bool z3[30][1
 			target[x][y]=z1[x][y];
 		}
 	}
-	for(x=0;x<30;x++)
+	for(int x=0;x<30;x++)
 	{
 		for(y=0;y<15;y++)
 		{
 			target[x+30][y]=z3[x][y];
 		}
 	}
-	for(x=0;x<30;x++)
+	for(int x=0;x<30;x++)
 	{
 		for(y=0;y<15;y++)
 		{
 			target[x][y+15]=z2[x][y];
 		}
 	}
-	for(x=0;x<30;x++)
+	for(int x=0;x<30;x++)
 	{
 		for(y=0;y<15;y++)
 		{

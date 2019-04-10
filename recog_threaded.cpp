@@ -174,7 +174,14 @@ struct path_data path(float angle)//determines which landing zones lie along the
 	path_inf.path = path_ret;
 	path_inf.size = real_count;
        
-}	
+}
+void print_path(struct path_data path)
+{
+	for(int i=0;i<path.size;i++)
+	{
+		cout<<"("<<path.path[i][0]<<","<<path.path[i][1]<<")"<<endl;
+	}
+}
 int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma)//analyzes sample texture. 
 {
 	image img;

@@ -166,7 +166,6 @@ class path_data path(float angle)//determines which landing zones lie along the 
 	for(int x=0;x<60;x++)
 	{
 		y = round(-(x-29)*tan(angle_rad));
-		cout<<"BEFORE PROCESSING: ("<<x<<","<<y<<")"<<endl;
 		y_real = y+14;
 		if(y_real<0||y_real>29)
 		{
@@ -187,7 +186,6 @@ class path_data path(float angle)//determines which landing zones lie along the 
 			path_ret[idx] = new int[2];
 			path_ret[idx][0] = x;
 			path_ret[idx][1] = path[x];
-			cout<<"AFTER PROCESSING: ("<<path_ret[idx][0]<<","<<path_ret[idx][1]<<")"<<endl;
 			idx++;
 		}
 	}

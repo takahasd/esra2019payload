@@ -67,7 +67,7 @@ class image		//image object.
 				y = path.path[i][1];
 				for(int x_adj=0;x_adj<8;x_adj++)
 				{
-					for(int y_adj=0;y_adj<8;y_adj++);
+					for(int y_adj=0;y_adj<8;y_adj++)
 					{
 						this->set_pixel(8*x+x_adj,8*y+y_adj,0,0,255);
 					}

@@ -162,31 +162,66 @@ class path_data path(float angle)//determines which landing zones lie along the 
 	int y=0;
 	int y_real=0;
 	int real_count = 0;
-	float angle_rad = angle*M_PI/180;
-	for(int x=0;x<60;x++)
+	int x_real = 0;
+	if(angle<=45)
 	{
-		y = round(-(x-29)*tan(angle_rad));
-		y_real = y+14;
-		if(y_real<0||y_real>29)
+		float angle_rad = angle*M_PI/180;
+		for(int x=0;x<60;x++)
 		{
-			y_real=-1;
+			y = round(-(x-29)*tan(angle_rad));
+			y_real = y+14;
+			if(y_real<0||y_real>29)
+			{
+				y_real=-1;
+			}
+			else
+			{
+				real_count++;
+			}
+			path[x]=y_real;
 		}
-		else
+		int** path_ret = new int*[real_count];
+		int idx=0;
+		for(int x=0;x<60;x++)
 		{
-			real_count++;
+			if(path[x]!=-1)
+			{
+				path_ret[idx] = new int[2];
+				path_ret[idx][0] = x;
+				path_ret[idx][1] = path[x];
+				idx++;
+			}
 		}
-		path[x]=y_real;
 	}
-	int** path_ret = new int*[real_count];
-	int idx=0;
-	for(int x=0;x<60;x++)
+	else
 	{
-		if(path[x]!=-1)
+		angle = 90 - angle;
+		float angle_rad = angle*M_PI/180;
+		for(int y=0;y<30;y++)
 		{
-			path_ret[idx] = new int[2];
-			path_ret[idx][0] = x;
-			path_ret[idx][1] = path[x];
-			idx++;
+			x = round(-(y-14)*tan(angle_rad));
+			x_real = x+29;
+			if(x_real<0||x_real>59)
+			{
+				x_real = -1;
+			}
+			else
+			{
+				real_count++;
+			}
+			path[y]=x_real;
+		}
+		int**path_ret = new int*[real_count];
+		int idx = 0;
+		for(int y=0;y<30;y++)
+		{
+			if(path[y]!=-1)
+			{
+				path_ret[idx] = new int[2];
+				path_ret[idx][0] = path[y];
+				path_ret[idx][1] = y;
+				idx++;
+			}
 		}
 	}
 	class path_data path_inf;

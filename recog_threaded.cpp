@@ -511,7 +511,8 @@ int main()
 	imshow("Done",done.matrix);//show it
 	namedWindow("LZ",WINDOW_AUTOSIZE);
 	imshow("LZ",lz.matrix);
-	waitKey(0);//wait until a key is pressed. 
+	waitKey(0);//wait until a key is pressed.
+	print_path(path(90));	
 	int vel_test = 20;
 	int* velocity = &vel_test;
 	send_velocity(velocity);

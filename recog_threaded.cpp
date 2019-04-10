@@ -129,11 +129,15 @@ int send_velocity(int* velocity)
 	shutdown(sock,2);
 	return 0;
 }
-struct path_data
+class path_data
 {
-	int** path;
-	int size;
-}
+	public:
+		int** path;
+		int size;
+		void clean()
+		{
+		}
+};
 struct path_data path(float angle)//determines which landing zones lie along the device path.
 {
 	int path[60];
@@ -143,11 +147,11 @@ struct path_data path(float angle)//determines which landing zones lie along the
 	float angle_rad = angle*M_PI/180;
 	for(int x=0;x<60;x++)
 	{
-		y = round(-(x-29)*tan(angle_rad))
+		y = round(-(x-29)*tan(angle_rad));
 		y_real = y+14;
 		if(y_real<0||y_real>29)
 		{
-			y_real=NULL;
+			y_real=-1;
 		}
 		else
 		{
@@ -159,16 +163,16 @@ struct path_data path(float angle)//determines which landing zones lie along the
 	int idx=0;
 	for(int x=0;x<60;x++)
 	{
-		if(path[x]!=NULL)
+		if(path[x]!=-1)
 		{
 			path_ret[idx] = new int[2];
 			path_ret[idx][0] = x;
 			path_ret[idx][1] = path[x];
 		}
 	}
-	struct path_data;
-	path_data.path = path_ret;
-	path_data.size = real_count;
+	struct path_data path_inf;
+	path_inf.path = path_ret;
+	path_inf.size = real_count;
        
 }	
 int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma)//analyzes sample texture. 

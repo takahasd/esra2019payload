@@ -212,6 +212,7 @@ class path_data path(float angle)//determines which landing zones lie along the 
 				real_count++;
 			}
 			path[y]=x_real;
+			cout<<"FOUND:("<<y<<","<<path[y]<<")"<<endl;
 		}
 		int**path_ret = new int*[real_count];
 		int idx = 0;

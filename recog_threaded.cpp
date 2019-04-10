@@ -134,7 +134,7 @@ struct path_data
 	int** path;
 	int size;
 }
-path_data path(float angle)//determines which landing zones lie along the device path.
+struct path_data path(float angle)//determines which landing zones lie along the device path.
 {
 	int path[60];
 	int y=0;

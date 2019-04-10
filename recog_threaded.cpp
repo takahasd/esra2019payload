@@ -163,6 +163,8 @@ class path_data path(float angle)//determines which landing zones lie along the 
 	int y_real=0;
 	int real_count = 0;
 	int x_real = 0;
+	int x = 0;
+	int** path_ret = 0;
 	if(angle<=45)
 	{
 		float angle_rad = angle*M_PI/180;

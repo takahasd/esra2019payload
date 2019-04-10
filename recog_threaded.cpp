@@ -214,7 +214,7 @@ class path_data path(float angle)//determines which landing zones lie along the 
 			path[y]=x_real;
 			cout<<"FOUND:("<<y<<","<<path[y]<<")"<<endl;
 		}
-		cout<<"Out of loop"<<endl;
+		cout<<"SIZE:"<<real_count<<endl;
 		int**path_ret = new int*[real_count];
 		int idx = 0;
 		for(int y=0;y<30;y++)

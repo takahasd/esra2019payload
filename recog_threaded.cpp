@@ -179,6 +179,7 @@ struct path_data path(float angle)//determines which landing zones lie along the
 }
 void print_path(struct path_data path)
 {
+	cout<<"PATH SIZE: "<<size<<endl;
 	for(int i=0;i<path.size;i++)
 	{
 		cout<<"("<<path.path[i][0]<<","<<path.path[i][1]<<")"<<endl;

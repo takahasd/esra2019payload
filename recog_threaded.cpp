@@ -57,7 +57,7 @@ class image		//image object.
 			pixel[0] = uchar(b);
 			matrix.at<cv::Vec3b>(y,x) = pixel;
 		}
-		void set_path(struct path_data path)
+		void set_path(class path_data path)
 		{
 			int x=0;
 			int y=0;
@@ -65,11 +65,11 @@ class image		//image object.
 			{
 				x = path.path[i][0];
 				y = path.path[i][1];
-				for(int x1=0;x1<8;x1++)
+				for(int x_adj=0;x_adj<8;x_adj++)
 				{
-					for(int y1=0;y1<8;y1++);
+					for(int y_adj=0;y_adj<8;y_adj++);
 					{
-						this->set_pixel(8*x+x1,8*y+y1,0,0,255);
+						this->set_pixel(8*x+x_adj,8*y+y_adj,0,0,255);
 					}
 				}
 			}

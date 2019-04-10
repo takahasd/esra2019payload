@@ -175,7 +175,7 @@ struct path_data path(float angle)//determines which landing zones lie along the
 	struct path_data path_inf;
 	path_inf.path = path_ret;
 	path_inf.size = real_count;
-       
+	return path_inf;
 }
 void print_path(struct path_data path)
 {

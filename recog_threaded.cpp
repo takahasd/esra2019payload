@@ -61,9 +61,9 @@ class image		//image object.
 			}
 			else
 			{
-				int r = 255;
-				int g = 0;
-				int b  = 0;
+				r = 255;
+				g = 0;
+				b  = 0;
 			}
 			for(int x1 = 0;x1<8;x1++)
 			{

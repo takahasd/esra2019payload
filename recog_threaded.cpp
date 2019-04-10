@@ -15,6 +15,15 @@
 #define PORT 65435
 using namespace std;
 using namespace cv;
+class path_data
+{
+	public:
+		int** path;
+		int size;
+		void clean()
+		{
+		}
+};
 class image		//image object.
 {
 	public:
@@ -52,7 +61,7 @@ class image		//image object.
 		{
 			int x=0;
 			int y=0;
-			for(i=0;i<path.size;i++)
+			for(int i=0;i<path.size;i++)
 			{
 				x = path.path[i][0];
 				y = path.path[i][1];
@@ -147,16 +156,7 @@ int send_velocity(int* velocity)
 	shutdown(sock,2);
 	return 0;
 }
-class path_data
-{
-	public:
-		int** path;
-		int size;
-		void clean()
-		{
-		}
-};
-struct path_data path(float angle)//determines which landing zones lie along the device path.
+class path_data path(float angle)//determines which landing zones lie along the device path.
 {
 	int path[60];
 	int y=0;
@@ -191,12 +191,12 @@ struct path_data path(float angle)//determines which landing zones lie along the
 			idx++;
 		}
 	}
-	struct path_data path_inf;
+	class path_data path_inf;
 	path_inf.path = path_ret;
 	path_inf.size = real_count;
 	return path_inf;
 }
-void print_path(struct path_data path)
+void print_path(class path_data path)
 {
 	cout<<"PATH SIZE: "<<path.size<<endl;
 	for(int i=0;i<path.size;i++)

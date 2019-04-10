@@ -169,6 +169,7 @@ struct path_data path(float angle)//determines which landing zones lie along the
 			path_ret[idx] = new int[2];
 			path_ret[idx][0] = x;
 			path_ret[idx][1] = path[x];
+			cout<<"AFTER PROCESSING: ("<<x<<","<<y<<")"<<endl;
 		}
 	}
 	struct path_data path_inf;

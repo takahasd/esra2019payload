@@ -10,6 +10,8 @@
 #include<netinet/in.h>
 #include<string.h>
 #include<arpa/inet.h>
+#define _USE_MATH_DEFINES
+#include<cmath>
 #define PORT 65435
 using namespace std;
 using namespace cv;
@@ -127,6 +129,48 @@ int send_velocity(int* velocity)
 	shutdown(sock,2);
 	return 0;
 }
+struct path_data
+{
+	int** path;
+	int size;
+}
+path_data path(float angle)//determines which landing zones lie along the device path.
+{
+	int path[60];
+	int y=0;
+	int y_real=0;
+	int real_count = 0;
+	float angle_rad = angle*M_PI/180;
+	for(int x=0;x<60;x++)
+	{
+		y = round(-(x-29)*tan(angle_rad))
+		y_real = y+14;
+		if(y_real<0||y_real>29)
+		{
+			y_real=NULL;
+		}
+		else
+		{
+			real_count++;
+		}
+		path[x]=y_real;
+	}
+	int** path_ret = new int*[real_count];
+	int idx=0;
+	for(int x=0;x<60;x++)
+	{
+		if(path[x]!=NULL)
+		{
+			path_ret[idx] = new int[2];
+			path_ret[idx][0] = x;
+			path_ret[idx][1] = path[x];
+		}
+	}
+	struct path_data;
+	path_data.path = path_ret;
+	path_data.size = real_count;
+       
+}	
 int sample_check(string var_test,int* r, int* g, int* b, int* var_av,int* var_ma)//analyzes sample texture. 
 {
 	image img;

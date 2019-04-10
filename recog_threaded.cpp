@@ -48,6 +48,24 @@ class image		//image object.
 			pixel[0] = uchar(b);
 			matrix.at<cv::Vec3b>(y,x) = pixel;
 		}
+		void set_path(struct path_data path)
+		{
+			int x=0;
+			int y=0;
+			for(i=0;i<path.size;i++)
+			{
+				x = path.path[i][0];
+				y = path.path[i][1];
+				for(int x1=0;x1<8;x1++)
+				{
+					for(int y1=0;y1<8;y1++);
+					{
+						this->set_pixel(8*x+x1,8*y+y1,0,0,255);
+					}
+				}
+			}
+		}
+
 		void set_group(int x,int y,bool safe)
 		{
 			int r = 0;
@@ -480,6 +498,7 @@ int main()
 	int *b = &blue;
 	int *var_max = &v_max;
 	int *var_avg = &v_avg;
+	float angle;
 	string name1,name2;//filenames
 	cout<<"Sample?"<<endl;//sample file
 	cin>>name1;
@@ -507,6 +526,9 @@ int main()
 	stitch_lz(lz_final,lz1.lz,lz2.lz,lz3.lz,lz4.lz);
 	cout<<lz_final[2][0];
 	image lz = stitch(lz1,lz2,lz3,lz4);
+	cout<<"Angle?"<<endl;
+	cin>>angle;
+	lz.set_path(path(angle));
 	image done = stitch(img1,img3,img2,img4);//make it whole again. 
 	image varmap = stitch(var1,var3,var2,var4);
 	//grid_fill(done,50,0,0);
@@ -516,7 +538,6 @@ int main()
 	namedWindow("LZ",WINDOW_AUTOSIZE);
 	imshow("LZ",lz.matrix);
 	waitKey(0);//wait until a key is pressed.
-	print_path(path(22.5));	
 	int vel_test = 20;
 	int* velocity = &vel_test;
 	send_velocity(velocity);

@@ -148,6 +148,7 @@ struct path_data path(float angle)//determines which landing zones lie along the
 	for(int x=0;x<60;x++)
 	{
 		y = round(-(x-29)*tan(angle_rad));
+		cout<<"BEFORE PROCESSING: ("<<x<<","<<y<<")"<<endl;
 		y_real = y+14;
 		if(y_real<0||y_real>29)
 		{

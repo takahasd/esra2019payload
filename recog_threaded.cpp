@@ -59,6 +59,7 @@ class image		//image object.
 		}
 		void set_path(class path_data path)
 		{
+			cout<<"SIZE:"<<path.size<<endl;
 			int x=0;
 			int y=0;
 			for(int i=0;i<path.size;i++)
@@ -71,6 +72,16 @@ class image		//image object.
 					{
 						this->set_pixel(8*x+x_adj,8*y+y_adj,0,0,255);
 					}
+				}
+			}
+		}
+		void set_landing(int x, int y)
+		{
+			for(int x_adj=0;x_adj<8;x_adj++)
+			{
+				for(int y_adj=0;y_adj<8;y_adj++)
+				{
+					this->set_pixel(8*x+x_adj,8*y+y_adj,255,255,0);
 				}
 			}
 		}
@@ -165,7 +176,7 @@ class path_data path(float angle)//determines which landing zones lie along the 
 	int x_real = 0;
 	int x = 0;
 	int** path_ret = 0;
-	if(angle<=45)
+	if(angle<=45&&angle>-45)
 	{
 		float angle_rad = angle*M_PI/180;
 		for(int x=0;x<60;x++)
@@ -182,7 +193,7 @@ class path_data path(float angle)//determines which landing zones lie along the 
 			}
 			path[x]=y_real;
 		}
-		int** path_ret = new int*[real_count];
+		path_ret = new int*[real_count];
 		int idx=0;
 		for(int x=0;x<60;x++)
 		{
@@ -212,13 +223,12 @@ class path_data path(float angle)//determines which landing zones lie along the 
 				real_count++;
 			}
 			path[y]=x_real;
-			cout<<"FOUND:("<<y<<","<<path[y]<<")"<<endl;
 		}
-		cout<<"SIZE:"<<real_count<<endl;
-		int**path_ret = new int*[real_count];
+		path_ret = new int*[real_count];
 		int idx = 0;
 		for(int y=0;y<30;y++)
 		{
+
 			if(path[y]!=-1)
 			{
 				path_ret[idx] = new int[2];
@@ -526,9 +536,99 @@ void imtest()
 	return &map[0][0];
 
 
-}*/	
+}*/
+float calc_descent(class path_data path,float descent_current, float x_gl, float y_gl,float velocity, float altitude,class image lz,class image done)
+{
+	float current_travel = 0;
+	float current_time = 0;
+	float desired_time = 0;
+	int current_lz = 0;
+	float* distances = new float[path.size];
+	float delta = 9999999;
+	float new_delta;
+	bool safe = false;
+	float true_x;
+	float true_y;
+	for(int i=0;i<path.size;i++)
+	{
+		cout<<"creating distance at "<<i<<endl;
+		true_x = (path.path[i][0]-29)*x_gl;
+		true_y = (path.path[i][1]-14)*y_gl;
+		cout<<"POINT ("<<path.path[i][0]-29<<","<<path.path[i][1]-14<<") IS ";
+		distances[i] = sqrt(true_x*true_x+true_y*true_y);
+		if(true_y>0)
+		{
+			distances[i] = -distances[i];
+		}
+		cout<<distances[i]<<" AWAY"<<endl;
+	}
+	current_time = altitude/descent_current;
+	current_travel = current_time*velocity;
+	cout<<"time to landing:"<<current_time<<endl;
+	cout<<"current travel:"<<current_travel<<endl;
+	for(int i=0;i<path.size;i++)
+	{
+		new_delta = abs(distances[i]-current_travel);
+		if(new_delta>delta)
+		{
+			current_lz = i-1;
+			break;
+		}
+		delta = new_delta;
+	}
+	int x = path.path[current_lz][0];
+	int y = path.path[current_lz][1];
+	if(lz_final[x][y]==true)
+	{
+		safe = true;
+	}
+	int lz_further = current_lz;
+	int lz_closer = current_lz;
+	int lz_f_x,lz_f_y,lz_c_x,lz_c_y;
+	while(safe==false)
+	{
+		if(lz_further!=path.size-1)
+		{
+
+			lz_further = lz_further + 1;
+		}
+		if(lz_closer!=0)
+		{
+			lz_closer = lz_closer -1;
+		}
+		lz_f_x = path.path[lz_further][0];
+		lz_f_y = path.path[lz_further][1];
+		lz_c_x = path.path[lz_closer][0];
+		lz_c_y = path.path[lz_closer][1];
+		if(lz_final[lz_f_x][lz_f_y]==true)
+		{
+			current_lz = lz_further;
+			safe=true;
+		}
+		if(lz_final[lz_c_x][lz_c_y]==true)
+		{
+			current_lz = lz_closer;
+			safe = true;
+		}
+	}
+	cout<<"SAFE LZ FOUND AT: "<<"("<<path.path[current_lz][0]<<","<<path.path[current_lz][1]<<")"<<endl;
+	lz.set_landing(path.path[current_lz][0],path.path[current_lz][1]);
+	done.set_landing(path.path[current_lz][0],path.path[current_lz][1]);
+	cout<<"LZ IS "<<distances[current_lz]<<"m AWAY"<<endl;
+	desired_time = distances[current_lz]/velocity;
+	float descent_desired = altitude/desired_time;
+	cout<<"DESIRED DESCENT SPEED: "<<descent_desired<<endl;
+	return descent_desired;
+}
 int main()
 {
+	float altitude = 20; //m
+	float vel = 2;//m/s
+	float descent_current = 5; //m/s
+	float x_angle = 0;//degrees
+	float y_angle = 0;//degrees
+	float x_gridlength = altitude*tan(31.1*M_PI/180)/30;
+	float y_gridlength = altitude*tan(24.4*M_PI/180)/15;
 	int red,green,blue,v_avg,v_max;
 	int *r = &red;
 	int *g = &green;//threads really dont like being passed things by reference. Ideally id just hand it &red, etc, but it loves throwing SIGABRT when i do that. 
@@ -538,9 +638,11 @@ int main()
 	float angle;
 	string name1,name2;//filenames
 	cout<<"Sample?"<<endl;//sample file
-	cin>>name1;
+	//cin>>name1;
+	name1 = "variance_test.jpg";
 	cout<<"Image?"<<endl;//actual image file
-	cin>>name2;
+	//cin>>name2;
+	name2 = "bushes3.jpg";
 	sample_check(name1,r,g,b,var_avg,var_max);//get sample data
 	cout<<"Avg:"<<*var_avg<<endl;
 	cout<<"max:"<<*var_max<<endl;
@@ -559,14 +661,14 @@ int main()
 	image lz2 = check(zone2);
 	image lz3 = check(zone3);
 	image lz4 = check(zone4);
-	cout<<lz_final[2][0];
 	stitch_lz(lz_final,lz1.lz,lz2.lz,lz3.lz,lz4.lz);
-	cout<<lz_final[2][0];
 	image lz = stitch(lz1,lz2,lz3,lz4);
 	cout<<"Angle?"<<endl;
 	cin>>angle;
-	lz.set_path(path(angle));
-	image done = stitch(img1,img3,img2,img4);//make it whole again. 
+	class path_data path_c = path(angle);
+	lz.set_path(path_c);
+	image done = stitch(img1,img3,img2,img4);//make it whole again. 	
+	float descent_vel = calc_descent(path_c,descent_current,x_gridlength,y_gridlength,vel,altitude,lz,done);
 	image varmap = stitch(var1,var3,var2,var4);
 	//grid_fill(done,50,0,0);
 	imwrite("pres.jpg",done.matrix);
